@@ -1,13 +1,29 @@
-const express = require('express');
+const express = require("express");
 const app = express();
 const port = 3000;
-const cors = require('cors');
+const cors = require("cors");
+const http = require("http");
 
 const corsOptions = {
-  origin: '*', // Orígenes permitidos (cuando esté en un dominio real, lo cambiaremos por ese dominio)
-  methods: ['GET', 'POST', 'PATCH', 'DELETE'], // Métodos permitidos
-  allowedHeaders: ['Content-Type', 'Authorization'] // Headers permitidos
+  origin: "*",
 };
+
+const server = http.createServer(app);
+const io = require("socket.io")(server, {
+  cors: corsOptions,
+});
+
+io.on("connection", socket => {
+  console.log("Se ha conectado un usuario");
+
+  socket.on("mensaje", data => {
+    console.log("Mensaje recibido:", data);
+  });
+
+  socket.on("disconnect", () => {
+    console.log("Usuario desconectado");
+  });
+});
 
 app.use(cors(corsOptions));
 app.use(express.json());
