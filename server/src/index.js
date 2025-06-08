@@ -14,10 +14,11 @@ const io = require("socket.io")(server, {
 });
 
 io.on("connection", socket => {
-  console.log("Se ha conectado un usuario");
+  console.log("Usuario conectado");
 
   socket.on("mensaje", data => {
     console.log("Mensaje recibido:", data);
+    io.emit("mensaje", data);
   });
 
   socket.on("disconnect", () => {
@@ -28,6 +29,6 @@ io.on("connection", socket => {
 app.use(cors(corsOptions));
 app.use(express.json());
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+server.listen(port, () => {
+  console.log(`Servidor corriendo en http://localhost:${port}`);
 });
