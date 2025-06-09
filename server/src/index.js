@@ -16,9 +16,9 @@ const io = require("socket.io")(server, {
 io.on("connection", socket => {
   console.log("Usuario conectado");
 
-  socket.on("mensaje", data => {
+  socket.on("message", data => {
     console.log("Mensaje recibido:", data);
-    io.emit("mensaje", data);
+    io.emit("message", data);
   });
 
   socket.on("disconnect", () => {
